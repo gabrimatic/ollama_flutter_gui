@@ -27,7 +27,7 @@ class ChatMessageWidget extends StatelessWidget {
     return Align(
       alignment: message.isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: InkWell(
-        onLongPress: () => _copyToClipboard(context),
+        onTap: () => _copyToClipboard(context),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           child: Column(
@@ -36,7 +36,8 @@ class ChatMessageWidget extends StatelessWidget {
                 : CrossAxisAlignment.start,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 decoration: BoxDecoration(
                   color: message.isUser
                       ? colorScheme.primaryContainer

@@ -1,5 +1,7 @@
 # Ollama Flutter GUI
 
+<img src="https://raw.githubusercontent.com/gabrimatic/ollama_flutter_gui/master/banner.jpeg" width="600" />
+
 ## Overview
 
 Ollama Flutter GUI is a modern, responsive web application that leverages the power of Ollama's offline language models to provide an interactive chat experience. Built with Flutter, this application offers a sleek, material design-inspired interface for interacting with various AI models locally.

@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:ollama_flutter_gui/consts.dart';
 
 import 'chat_message.dart';
 
@@ -86,16 +87,15 @@ class ChatStateNotifier extends StateNotifier<ChatState> {
 
     try {
       final response = await http.post(
-        // Change the URL incasse your server is running on a different port
-        Uri.parse('http://localhost:11434/api/generate'),
+        Uri.parse(kLocalHostUrl),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          // Change the model name here if you are using a different model
-          'model': 'llama3.1',
+          'model': kAiModel,
           'prompt': '$message $fileContent',
-          //TODO: Add stream support
+          //TODO: Add streaming support
           'stream': false,
         }),
+        
       );
 
       if (response.statusCode == 200) {
