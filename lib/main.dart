@@ -1,5 +1,7 @@
+import 'package:center_the_widgets/center_the_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'chat_screen.dart';
 
 void main() {
@@ -7,12 +9,13 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Chat App',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
@@ -21,7 +24,11 @@ class MyApp extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const ChatScreen(),
+      home: CenterTheWidgets(
+        color: Colors.cyan.withOpacity(0.1),
+        maxWidthToResize: 800,
+        child: const ChatScreen(),
+      ),
     );
   }
 }

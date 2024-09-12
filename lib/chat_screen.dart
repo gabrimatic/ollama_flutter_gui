@@ -40,21 +40,24 @@ class ChatScreen extends ConsumerWidget {
                     backgroundColor: colorScheme.secondaryContainer,
                   ),
                 Container(
-                  color: colorScheme.surfaceContainerHighest,
+                  color: colorScheme.surfaceContainerLow,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  margin: const EdgeInsets.only(top: 8),
                   child: Row(
                     children: [
                       IconButton(
                         icon: const Icon(Icons.attach_file),
                         color: colorScheme.primary,
                         onPressed: () async {
-                          FilePickerResult? result = await FilePicker.platform
-                              .pickFiles(allowMultiple: true);
+                          FilePickerResult? result =
+                              await FilePicker.platform.pickFiles(
+                            allowMultiple: false,
+                          );
                           if (result != null) {
                             ref
                                 .read(chatStateProvider.notifier)
-                                .uploadFiles(result.files);
+                                .uploadFile(result.files.first);
                           }
                         },
                       ),
