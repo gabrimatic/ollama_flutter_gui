@@ -1,6 +1,6 @@
 # Ollama Flutter GUI
 
-<img src="https://raw.githubusercontent.com/gabrimatic/ollama_flutter_gui/master/banner.jpeg" width="600" />
+<img src="https://raw.githubusercontent.com/gabrimatic/ollama_flutter_gui/master/banner.png" width="600" />
 
 ## Overview
 
