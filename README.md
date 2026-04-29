@@ -96,7 +96,7 @@ For more information on Flutter development, please refer to the [Flutter docume
 For details on Ollama and its models, visit the [Ollama official website](https://ollama.ai/).
 
 ## Developer
-By [Hossein Yousefpour](https://gabrimatic.info "Hossein Yousefpour")
+By [Soroush Yousefpour](https://gabrimatic.info "Soroush Yousefpour")
 
 &copy; All rights reserved.
 
