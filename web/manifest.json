@@ -1,11 +1,11 @@
 {
-    "name": "ollama_flutter_gui",
-    "short_name": "ollama_flutter_gui",
+    "name": "Ollama Flutter GUI",
+    "short_name": "Ollama GUI",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#F8FAFC",
+    "theme_color": "#0F766E",
+    "description": "Flutter Web chat for local Ollama models.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

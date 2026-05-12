@@ -1,7 +1,5 @@
 name: ollama_flutter_gui
-description: "Ollama Flutter GUI: A modern, responsive interface for local Ollama AI models.
-  Features include prompt communication, file upload, and a sleek Material Design 3 UI.
-  Built with Flutter and Riverpod, enhancing local AI interaction with improved privacy and offline capabilities."
+description: "Flutter Web chat for local Ollama models with model discovery, file prompts, and a localhost-first workflow."
 
 publish_to: 'none'
 
@@ -16,8 +14,8 @@ dependencies:
   flutter_riverpod:
   http:
   file_picker:
-  center_the_widgets:
-  flutter_markdown:
+  flutter_markdown_plus: ^1.0.7
+  cupertino_icons: ^1.0.9
 
 dev_dependencies:
   flutter_test:

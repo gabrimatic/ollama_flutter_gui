@@ -1,104 +1,116 @@
 # Ollama Flutter GUI
 
-<img src="https://raw.githubusercontent.com/gabrimatic/ollama_flutter_gui/master/banner.png" width="720" />
+[![CI](https://github.com/gabrimatic/ollama_flutter_gui/actions/workflows/ci.yml/badge.svg)](https://github.com/gabrimatic/ollama_flutter_gui/actions/workflows/ci.yml)
+[![Platform: Web](https://img.shields.io/badge/platform-Web-lightgrey.svg)]()
+[![Flutter](https://img.shields.io/badge/Flutter-stable-02569B.svg)](https://flutter.dev)
+[![Ollama](https://img.shields.io/badge/Ollama-localhost-0F766E.svg)](https://ollama.com)
+[![License: MIT](https://img.shields.io/badge/license-MIT-lightgrey.svg)](LICENSE)
 
-## Overview
+Ollama Flutter GUI is a Flutter chat surface for local Ollama models. You run it against `localhost:11434`, load the models already pulled on your machine, and keep the chat path on your own Ollama runtime.
 
-Ollama Flutter GUI is a modern, responsive web application that leverages the power of Ollama's offline language models to provide an interactive chat experience. Built with Flutter, this application offers a sleek, material design-inspired interface for interacting with various AI models locally.
+It is intentionally small: pick an endpoint, refresh local models, chat through Ollama's `/api/chat` endpoint, attach a small text file when the prompt needs context, and copy model output from the chat.
+
+<p align="center">
+  <img src="banner.png" width="860" alt="Ollama Flutter GUI banner">
+</p>
+
+## Local Runtime
+
+Ollama Flutter GUI talks to your local Ollama server. It does not include a hosted model backend, account flow, telemetry path, or cloud fallback.
+
+| Runtime path | Where it runs |
+|--------------|---------------|
+| Flutter UI | Browser |
+| Model discovery | `GET /api/tags` on your Ollama endpoint |
+| Chat | `POST /api/chat` with `stream: false` |
+| File prompt context | In browser memory, then sent to your configured Ollama endpoint |
+| Chat history | In app state for the current session |
+
+## At a Glance
+
+| Surface | Runtime scope | Status |
+|---------|---------------|--------|
+| Chat | Prompt a local Ollama model and keep prior turns in the request history. | Ready. |
+| Model picker | Load models from `/api/tags` and switch between local tags. | Ready. |
+| Endpoint control | Point the UI at another Ollama endpoint, then refresh models. | Ready. |
+| File prompts | Attach one UTF-8 text file up to 1 MB and send it as prompt context. | Ready. |
+| Web build | Build as a Flutter Web app. | Covered by CI. |
+
+## Quick Start
+
+Requirements: **Flutter stable**, **Dart 3.5+**, and **Ollama running locally**.
+
+```bash
+git clone https://github.com/gabrimatic/ollama_flutter_gui.git
+cd ollama_flutter_gui
+flutter pub get
+flutter run -d chrome
+```
+
+Start Ollama and pull a model:
+
+```bash
+ollama pull llama3.1
+ollama serve
+```
+
+Default endpoint: `http://localhost:11434`.
 
 ## Features
 
-- **Responsive Web Design**: Optimized for various screen sizes while maintaining a maximum width for better readability.
-- **Multiple Model Support**: Easily switch between different Ollama models by modifying a single line of code.
-- **File Upload**: Ability to upload and process multiple files within the chat interface.
-- **Modern UI**: Utilizes Material Design 3 for a fresh, contemporary look.
-- **Offline Functionality**: Leverages Ollama's offline models for privacy and speed.
-- **Real-time Responses**: Instant AI-generated responses to user inputs.
+- **Local model discovery**: refreshes the model picker from Ollama's `/api/tags` endpoint.
+- **Chat history**: sends previous turns to `/api/chat` so the model receives conversation context.
+- **Endpoint switching**: edits the Ollama base URL from the app instead of changing source code.
+- **File prompt context**: attaches one small text file and wraps it clearly in the prompt.
+- **Connection feedback**: shows reachable, empty-model, request, and error states in the UI.
+- **Copy output**: tap a message to copy it.
+- **Flutter Web first**: the main path is `flutter run -d chrome` and `flutter build web --release`.
 
-## Technical Stack
+## Development
 
-- **Frontend**: Flutter Web
-- **State Management**: Riverpod
-- **Backend Integration**: HTTP requests to local Ollama API
-- **File Handling**: file_picker package for multi-file selection
+Run the normal checks:
 
-## Prerequisites
+```bash
+flutter pub get
+flutter analyze
+flutter test
+flutter build web --release
+```
 
-- Flutter SDK (latest stable version)
-- Dart SDK (latest stable version)
-- Ollama installed and running locally
-- A modern web browser (Chrome, Firefox, Safari, or Edge)
-
-## Setup and Installation
-
-1. **Clone the Repository**
-   ```
-   git clone https://github.com/gabrimatic/ollama_flutter_gui.git
-   cd ollama_flutter_gui
-   ```
-
-2. **Install Dependencies**
-   ```
-   flutter pub get
-   ```
-
-3. **Configure Ollama**
-   Ensure Ollama is installed and running on your local machine. The default API endpoint is set to `http://localhost:11434/api/generate`. Modify this in `chat_state.dart` if your setup differs.
-
-4. **Run the Application**
-   ```
-   flutter run -d chrome
-   ```
-
-## Usage
-
-1. **Starting a Chat**: Type your message in the input field at the bottom of the screen and press the send button or hit enter.
-
-2. **Uploading Files**: Click the attachment icon to select one or more files. The file names will be sent to the AI model for processing.
-
-3. **Changing AI Models**: To use a different Ollama model, modify the `model` field in the POST request body in `chat_state.dart`. For example, change `'model': 'llama3.1'` to `'model': 'gpt4'` or any other model you have installed in Ollama.
-
-4. **Viewing Responses**: AI-generated responses will appear in the chat interface, distinguished from user messages by color and alignment.
+CI runs the same analyze, test, and web build path on pushes and pull requests.
 
 ## Project Structure
 
-- `lib/`
-  - `main.dart`: Entry point of the application
-  - `chat_screen.dart`: Main chat interface
-  - `chat_state.dart`: State management and API interactions
-  - `chat_message.dart`: Chat message model and widget
+| Path | Purpose |
+|------|---------|
+| `lib/main.dart` | App bootstrap and theme |
+| `lib/chat_screen.dart` | Chat UI, endpoint control, model picker, composer |
+| `lib/chat_state.dart` | Riverpod state, file prompt handling, request flow |
+| `lib/ollama_service.dart` | Ollama API client for `/api/tags` and `/api/chat` |
+| `lib/chat_message.dart` | Message model and Markdown-rendered chat bubble |
+| `test/chat_state_test.dart` | Local HTTP contract tests for model discovery, chat, and files |
 
-## Customization
+## Configuration
 
-- **Colors**: Modify the color scheme in `main.dart` by changing the `seedColor` in `ColorScheme.fromSeed()`.
-- **API Endpoint**: Update the API URL in `chat_state.dart` if you're using a different address for Ollama.
-- **Max Width**: Adjust the `maxWidth` constraint in `chat_screen.dart` to change the application's maximum width.
-- **AI Model**: Change the model in `chat_state.dart` by modifying the `model` field in the POST request body.
+Default values live in `lib/consts.dart`:
 
-## Contributing
+| Setting | Default | Notes |
+|---------|---------|-------|
+| `kDefaultOllamaBaseUrl` | `http://localhost:11434` | Change in the UI or source. |
+| `kDefaultAiModel` | `llama3.1` | Used until `/api/tags` returns a local model. |
+| `kMaxUploadBytes` | `1048576` | One MB per attached file. |
 
-Contributions to Ollama Flutter GUI are welcome! Please feel free to submit pull requests, create issues or spread the word.
+## Limits
+
+- Streaming is not enabled yet; requests use `stream: false`.
+- Files are sent as prompt text, not as binary uploads.
+- Chat history is session-local and clears when the app reloads.
+- Browser CORS still depends on how your Ollama server is exposed. If you serve the UI from a LAN or Tailscale address, allow that origin in Ollama before expecting browser requests to work.
+
+## Links
+
+[Ollama API](https://github.com/ollama/ollama/blob/main/docs/api.md) · [Flutter docs](https://docs.flutter.dev) · [Soroush](https://gabrimatic.info) · [GitHub](https://github.com/gabrimatic)
 
 ## License
 
-MIT License
-
-## Acknowledgements
-
-- Ollama team for providing powerful offline language models
-- Flutter and Dart teams for the excellent framework and language
-- Contributors and users of this project
-
----
-
-For more information on Flutter development, please refer to the [Flutter documentation](https://flutter.dev/docs).
-
-For details on Ollama and its models, visit the [Ollama official website](https://ollama.ai/).
-
-## Developer
-By [Soroush Yousefpour](https://gabrimatic.info "Soroush Yousefpour")
-
-&copy; All rights reserved.
-
-## Donate
-<a href="https://www.buymeacoffee.com/gabrimatic" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Book" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+MIT License. Details: [LICENSE](LICENSE).

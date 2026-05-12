@@ -1,4 +1,3 @@
-import 'package:center_the_widgets/center_the_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,16 +18,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.teal,
+          seedColor: const Color(0xFF0F766E),
           brightness: Brightness.light,
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: CenterTheWidgets(
-        color: Colors.cyan.withOpacity(0.1),
-        maxWidthToResize: 800,
-        child: const ChatScreen(),
-      ),
+      home: const ChatScreen(),
     );
   }
 }
