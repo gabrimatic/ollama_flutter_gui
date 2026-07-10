@@ -14,7 +14,7 @@ dependencies:
   flutter_riverpod:
   http:
   file_picker:
-  flutter_markdown_plus: ^1.0.7
+  flutter_markdown_plus: ^1.0.12
   cupertino_icons: ^1.0.9
 
 dev_dependencies:
